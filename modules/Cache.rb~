@@ -1,0 +1,5 @@
+class Cache
+  def initialize()
+    puts "Allow module initialized"
+  end
+end

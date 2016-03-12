@@ -11,6 +11,9 @@ require_all 'modules'
 host = 'localhost'
 port = 2345
 
+#directory definitions
+WEB_ROOT = './public'
+
 Helpers.module_initialization
 
 allow = Allow.new

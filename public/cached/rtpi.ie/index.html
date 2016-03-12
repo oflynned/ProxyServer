@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1"><title>
+	acisConnect
+</title><link rel="stylesheet" type="text/css" href="Styles/layout.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/controls.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/jquery/jquery-ui-1.8.1.custom.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/openLayer/default/style.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/map/popupInfoWindow.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/map/mapControl.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/map/loadingPanel.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/map/toolTip.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Styles/map/clusterSelect.css?v=1.3" /><link rel="stylesheet" type="text/css" href="Page_Content/Default/site.css?v=1.3" /><link rel="shortcut icon" href="Page_Content/Default/Images/favicon.ico?v=1.3" /><script type="text/javascript">var accordionSettingsPage='AccordionSettings.aspx';</script><script type="text/javascript">var auditSettings=eval('auditSettings={"Mode":"GoogleAnalytics","Account":"UA-22393060-1"}');</script></head>
+
+<body id="pageBody" onload="initPage(700, unsupportedBrowsers=[{&quot;Type&quot;:&quot;msie&quot;,&quot;Version&quot;:&quot;6.0&quot;}])">
+    <form method="post" action="" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTk0NjA4MDkzNQ9kFgQCAQ9kFhICAQ8WAh4EaHJlZgUXU3R5bGVzL2xheW91dC5jc3M/dj0xLjNkAgIPFgIfAAUZU3R5bGVzL2NvbnRyb2xzLmNzcz92PTEuM2QCAw8WAh8ABS5TdHlsZXMvanF1ZXJ5L2pxdWVyeS11aS0xLjguMS5jdXN0b20uY3NzP3Y9MS4zZAIEDxYCHwAFKFN0eWxlcy9vcGVuTGF5ZXIvZGVmYXVsdC9zdHlsZS5jc3M/dj0xLjNkAgUPFgIfAAUkU3R5bGVzL21hcC9wb3B1cEluZm9XaW5kb3cuY3NzP3Y9MS4zZAIGDxYCHwAFH1N0eWxlcy9tYXAvbWFwQ29udHJvbC5jc3M/dj0xLjNkAgcPFgIfAAUhU3R5bGVzL21hcC9sb2FkaW5nUGFuZWwuY3NzP3Y9MS4zZAIIDxYCHwAFHFN0eWxlcy9tYXAvdG9vbFRpcC5jc3M/dj0xLjNkAgkPFgIfAAUiU3R5bGVzL21hcC9jbHVzdGVyU2VsZWN0LmNzcz92PTEuM2QCAw8WAh4Gb25sb2FkBURpbml0UGFnZSg3MDAsIHVuc3VwcG9ydGVkQnJvd3NlcnM9W3siVHlwZSI6Im1zaWUiLCJWZXJzaW9uIjoiNi4wIn1dKRYCAgEPZBYCAgMPZBYCZg9kFgYCAQ9kFgJmD2QWAgIBDxYCHgRUZXh0BYsIPGRpdiBpZD0ibG9nb0JhciI+ICAgIA0KICAgIDwhLS0gPGltZyBpZD0ibG9nbyIgc3JjPSJQYWdlX0NvbnRlbnQvRGVmYXVsdC9JbWFnZXMvYWNpc0xvZ28ucG5nIi8+IC0tPg0KDQoJPGRpdiBzdHlsZT0iY2xlYXI6Ym90aCI+PC9kaXY+DQoNCiAgICA8ZGl2IGlkPSJIZWFkZXJUb29scyI+DQogICAgICAgIDxkaXYgaWQ9Ik1hcExpbmsiPg0KICAgICAgICAgICAgPGEgaHJlZj0iRGVmYXVsdC5hc3B4Ij5NYXA8L2E+DQogICAgICAgIDwvZGl2Pg0KICAgICAgICA8ZGl2IGlkPSJUZXh0T25seSI+DQogICAgICAgICAgICA8YSBocmVmPSJUZXh0L0RlZmF1bHQuYXNweCI+VGV4dCBvbmx5PC9hPg0KICAgICAgICA8L2Rpdj4NCiAgICAgICAgPGRpdiBpZD0icHJpdmFjeVBvbGljeUhlYWRlciI+DQogICAgICAgICAgICA8YSBocmVmPSJQcml2YWN5UG9saWN5LmFzcHgiPlByaXZhY3kgUG9saWN5PC9hPg0KICAgICAgICA8L2Rpdj4NCiAgICAgICAgPGRpdiBpZD0iVGV4dEZvbnRSZXNpemUiPg0KICAgICAgICAgICAgPGEgaHJlZj0iI3NtYWxsZXIiPjxpbWcgYWx0PSJEZWNyZWFzZSBmb250IHNpemUiIHRpdGxlPSJEZWNyZWFzZSBmb250IHNpemUiIHNyYz0iUGFnZV9Db250ZW50L0RlZmF1bHQvSW1hZ2VzL2ZvbnQtZGVjcmVhc2UucG5nIiAvPjwvYT4NCiAgICAgICAgICAgIDxhIGhyZWY9IiNmb250c2l6ZTAiPjxpbWcgYWx0PSJEZWZhdWx0IGZvbnQgc2l6ZSIgdGl0bGU9IlJlc2V0IGZvbnQgc2l6ZSIgc3JjPSJQYWdlX0NvbnRlbnQvRGVmYXVsdC9JbWFnZXMvZm9udC1kZWZhdWx0LnBuZyIgLz48L2E+DQogICAgICAgICAgICA8YSBocmVmPSIjYmlnZ2VyIj48aW1nIGFsdD0iSW5jcmVhc2UgZm9udCBzaXplIiB0aXRsZT0iSW5jcmVhc2UgZm9udCBzaXplIiBzcmM9IlBhZ2VfQ29udGVudC9EZWZhdWx0L0ltYWdlcy9mb250LWluY3JlYXNlLnBuZyIgLz48L2E+DQogICAgICAgIDwvZGl2Pg0KICAgICAgICA8ZGl2IGlkPSJMYW5ndWFnZVNlbGVjdGlvbiI+DQogICAgICAgIDwvZGl2Pg0KICAgIDwvZGl2Pg0KPC9kaXY+ZAILD2QWAmYPFgIeBG1vZGUFBnNpbXBsZRYCAgEPFgIeC18hSXRlbUNvdW50AgMWBmYPZBYGZg8VBBJzdG9wU2VhcmNoLnNob3dUYWISc3RvcFNlYXJjaC5oaWRlVGFiF1NlYXJjaCBieSBCdXMvTHVhcyBTdG9wBG5vbmVkAgEPFQEDeWVzZAICD2QWBGYPZBYCAgYPDxYCHgdWaXNpYmxlZ2QWAgIDDxAPFgYeDURhdGFUZXh0RmllbGQFBE5hbWUeDkRhdGFWYWx1ZUZpZWxkBQJJZB4LXyFEYXRhQm91bmRnZA8WBQIBAgICAwIEAgUWBRAFBENvcmsFATJnEAUGRHVibGluBQExZxAFBkdhbHdheQUBM2cQBQhMaW1lcmljawUBNGcQBQlXYXRlcmZvcmQFATVnZGQCAg8WAh8EAv////8PZAIBD2QWBmYPFQQVc2VydmljZVNlYXJjaC5zaG93VGFiFXNlcnZpY2VTZWFyY2guaGlkZVRhYhdTZWFyY2ggYnkgUm91dGUgTm8vTmFtZQRub25lZAIBDxUBA3llc2QCAg9kFgRmD2QWAgIGDw8WAh8FZ2QWAgIDDxAPFgYfBgUETmFtZR8HBQJJZB8IZ2QPFgUCAQICAgMCBAIFFgUQBQRDb3JrBQEyZxAFBkR1YmxpbgUBMWcQBQZHYWx3YXkFATNnEAUITGltZXJpY2sFATRnEAUJV2F0ZXJmb3JkBQE1Z2RkAgIPFgIfBAL/////D2QCAg9kFgZmDxUEF2ludHJvZHVjdGlvblRhYi5zaG93VGFiF2ludHJvZHVjdGlvblRhYi5oaWRlVGFiElNlYXJjaCBieSBMb2NhdGlvbgRub25lZAIBDxUBA3llc2QCAg9kFgICAg8WAh8EAv////8PZAIND2QWAmYPZBYCAgEPFgIfAmVkZPpyzriAihSGoh0Ax8VLy7gSHAje/1HAREZqIvtYAiY+" />
+
+
+<script src="/ScriptResource.axd?d=ampLb85p_bZMLoqLytlPUbpELf63-Oqe_Sd6k_Y1rapsfOLq-V-98lkfxA6FrBN4oldRK2b9NOKqyEAeVk3lM7Ay3NiuErXkY7GJBLZEIs9rb6Z1WLNSsdjlwTQRrdObYOVwp-xGH3nkfdLaWiuxUGi3GmkNFP467X9txvKGktc1&amp;t=7e632e9f" type="text/javascript"></script>
+<script src="Scripts/thirdParty/proj4js-compressed.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/thirdParty/openLayers-2.9.1.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery-1.4.2.min.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery-ui-1.8.1.custom.min.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery.rightClick.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery.accordion.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery.cookies.2.2.0.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/jquery.ticker.js.aspx?v=1.3" type="text/javascript"></script>
+<script src="Scripts/jquery/fluidtextresizer.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/page/audit.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/page/resources.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/customNavigation.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/customNavigationSearch.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/keyboardActions.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/utilities.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/popupInfoWindow.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/loadingPanel.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/clusterSelect.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/toolTip.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/page/resultsDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/page/optionsWindow.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/content/stopDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/content/cameraDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/content/weatherDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/content/roadworksDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/content/incidentDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/content/carparkDisplay.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/map/core/main.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/page/default.release.js?v=1.3" type="text/javascript"></script>
+<script src="Scripts/page/cookiesNotice.release.js?v=1.3" type="text/javascript"></script>
+<script src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.2&amp;mkt=en-GB" type="text/javascript"></script>
+<script src="Tab_Content/StopSearch/stopSearch.release.js?v=1.3" type="text/javascript"></script>
+<script src="Tab_Content/ServiceSearch/serviceSearch.release.js?v=1.3" type="text/javascript"></script>
+<script src="Tab_Content/IntroductionTab/introductionTab.release.js?v=1.3" type="text/javascript"></script>
+<script src="ConnectService.svc/js" type="text/javascript"></script>
+<script src="FeedService.svc/js" type="text/javascript"></script>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
+        <div>
+            
+
+            <div id="MainUpdatePanel">
+	
+
+                <div id="maincontainer">
+
+                    <div class="cookiesNotice" style="display:none">
+                        <p><b>Notice for users:</b> This site places cookies on your device. By continuing to browse the site you are agreeing to our use of cookies. Find out more in our site <a href="PrivacyPolicy.aspx">privacy policy</a>. <input type="button" id="cookiesContinue" value="Continue" onclick='(new cookiesNotice()).consentCookies();' /></p>
+                    </div>
+
+                    <div id="header">
+                        <div id="headerControl_headerContainer">
+		
+  <div id="logoBar">    
+    <!-- <img id="logo" src="Page_Content/Default/Images/acisLogo.png"/> -->
+
+	<div style="clear:both"></div>
+
+    <div id="HeaderTools">
+        <div id="MapLink">
+            <a href="Default.aspx">Map</a>
+        </div>
+        <div id="TextOnly">
+            <a href="Text/Default.aspx">Text only</a>
+        </div>
+        <div id="privacyPolicyHeader">
+            <a href="PrivacyPolicy.aspx">Privacy Policy</a>
+        </div>
+        <div id="TextFontResize">
+            <a href="#smaller"><img alt="Decrease font size" title="Decrease font size" src="Page_Content/Default/Images/font-decrease.png" /></a>
+            <a href="#fontsize0"><img alt="Default font size" title="Reset font size" src="Page_Content/Default/Images/font-default.png" /></a>
+            <a href="#bigger"><img alt="Increase font size" title="Increase font size" src="Page_Content/Default/Images/font-increase.png" /></a>
+        </div>
+        <div id="LanguageSelection">
+        </div>
+    </div>
+</div>
+
+	</div>
+
+                    </div>
+
+                    <div id="tickerContainer">
+                        <div id="Ticker1_newsTicker" align="right">
+    <table class="ticker" cellpadding="0" cellspacing="0">
+    <tr>
+    <td class="ticker-height" >
+        <table class="ticker-body ticker-height" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <td class="ticker-title ticker-height"><span class="ticker-title-text"></span></td>
+                <td class="ticker-text ticker-height"><div><span style="display:block"></span></div></td>
+            </tr>
+        </table>
+    </td>
+    <td class="ticker-height" style="width:48px" valign="top">
+        <table class="ticker-controls" cellpadding="0" cellspacing="3">
+            <tr>
+                <td id="play" class="ui-corner-all ui-state-default" style="display:none;"><span class="ui-icon ui-icon-play"></span></td>
+                <td id="stop" class="ui-corner-all ui-state-default"><span class="ui-icon ui-icon-stop"></span></td>
+                <td id="previous" class="ui-corner-all ui-state-default"><span class="ui-icon ui-icon-seek-prev"></span></td>             
+                <td id="next" class="ui-corner-all ui-state-default" ><span class="ui-icon ui-icon-seek-next"></span></td>                       
+            </tr>
+        </table>
+    </td>          
+    </tr>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    //document load
+    $(function ()
+    {        
+        function resizeTicker()
+        {
+            var ticker = $('#Ticker1_newsTicker');
+            var tickerText = ticker.find('.ticker-text');
+            ticker.width("100%");
+            tickerText.find('div:first').css({ 'height': tickerText.height() });
+        }
+
+        //load the ticker plugin and invoke
+        setTimeout(function ()
+        {
+            $('#Ticker1_newsTicker').ticker();
+        }, 100);
+
+        $(window).resize(function ()
+        {
+            setTimeout(function () { resizeTicker(); }, 100);
+        });
+
+        setTimeout(function () { resizeTicker(); }, 100);
+    });
+</script>	
+
+                    </div>
+                    
+                    <div id="contentwrapper">
+                        <noscript><div id="javascriptWarning"><span id="labelJavascriptWarning" class="labelJavascriptWarning">Sorry, but either your browser does not support JavaScript, or it is turned off.<br />This site required JavaScript to be enabled.</span></div></noscript> 
+                        <div id="leftcolumn" class="leftcolumn">
+                            <div class="boxtop-right"><div class="boxtop-left"></div></div>
+                            <div class="leftTop" id="leftTop" align="left" style="overflow:hidden;">
+                                <div id="show" class="showAccordion" style="display:none;"></div>
+                                <div id="hide" class="hideAccordion" style="display: none;">
+                                    <table style="width:100%">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td style="text-align: right">
+                                                    <span id="labelShowHideAccordion" class="labelShowHideAccordion">Hide Options</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="accordionContainer">
+                                
+
+<div class="accordion">
+    <div id="Accordion1_accordion" role="tablist" class="accordion" mode="simple">
+           
+            <div class="accordion-tab">
+                <div tabindex="-1" class="accordion-tab-header" onshow="stopSearch.showTab" onhide="stopSearch.hideTab"  isChild="false">
+                    <div class="boxtop-right"><div class="boxtop-left"></div></div>
+                    <span class="ui-icon ui-icon-triangle-1-e"></span>
+                    <a tabindex="-1" href="#" style="outline:none; text-decoration: none;">Search by Bus/Luas Stop</a>
+                    <div style="display: none;" class="boxbottom-right"><div class="boxbottom-left"></div></div>
+                </div>
+
+                <div style="display: block" class="accordion-tab-body" expandDefault="yes"  isChild="false">
+                    <div id="Accordion1_Repeater1_tabContent_0" class="tabContent">
+
+<div id="stopSearch" style="width: 100%">
+    <p>You can search by Bus Stop Number/Name<p>or Luas Stop Name.</p><p>Eg. Enter ‘112’, or ‘Jervis’
+    <span id="Accordion1_Repeater1_ctl00_0_lblStopSearch_0" class="tabContentHeading">Enter Name / Reference: </span><br />
+    <input type="text" id="txtStopSearch" autocomplete="off" class="textbox" maxlength="100" />
+    <br />
+    <div id="Accordion1_Repeater1_ctl00_0_panelStopSearchDistrict_0" style="padding-top:5px; padding-bottom:5px">
+		
+        <span id="Accordion1_Repeater1_ctl00_0_lblStopSearchDistrict_0" class="tabContentHeading">District:</span><br />
+        <select name="Accordion1$Repeater1$ctl00$ctl00$ddlStopSearchDistrict" id="Accordion1_Repeater1_ctl00_0_ddlStopSearchDistrict_0" class="stopSearchDistrictSelection globalNavigateToDistrictSelection">
+			<option value="-1">All</option>
+			<option value="2">Cork</option>
+			<option value="1">Dublin</option>
+			<option value="3">Galway</option>
+			<option value="4">Limerick</option>
+			<option value="5">Waterford</option>
+
+		</select>
+    
+	</div>
+    <input type="button" id="btnStopSearch" value='Search' disabled="disabled" />
+    <input type="button" id="btnStopSearchClear" value='Clear' disabled="disabled" />
+</div>
+                     
+                    </div>
+                    <div class="boxbottom-right"><div class="boxbottom-left"></div></div>                 
+                </div>                
+            </div>
+               
+            <div class="accordion-tab">
+                <div tabindex="-1" class="accordion-tab-header" onshow="serviceSearch.showTab" onhide="serviceSearch.hideTab"  isChild="false">
+                    <div class="boxtop-right"><div class="boxtop-left"></div></div>
+                    <span class="ui-icon ui-icon-triangle-1-e"></span>
+                    <a tabindex="-1" href="#" style="outline:none; text-decoration: none;">Search by Route No/Name</a>
+                    <div style="display: none;" class="boxbottom-right"><div class="boxbottom-left"></div></div>
+                </div>
+
+                <div style="display: block" class="accordion-tab-body" expandDefault="yes"  isChild="false">
+                    <div id="Accordion1_Repeater1_tabContent_1" class="tabContent">
+
+<div id="serviceSearch" style="width: 100%">
+    <p>e.g. enter “208”, or “Green” or “Red”<b>
+    <span id="Accordion1_Repeater1_ctl00_1_lblServiceSearch_1" class="tabContentHeading">Enter Service Number:</span><br />
+    <input type="text" id="txtServiceSearch" autocomplete="off" class="textbox" maxlength="100" />
+    <br />
+    <div id="Accordion1_Repeater1_ctl00_1_panelServiceSearchDistrict_1" style="padding-top:5px; padding-bottom:5px">
+		
+        <span id="Accordion1_Repeater1_ctl00_1_lblServiceSearchDistrict_1" class="tabContentHeading">District:</span><br />
+        <select name="Accordion1$Repeater1$ctl01$ctl00$ddlServiceSearchDistrict" id="Accordion1_Repeater1_ctl00_1_ddlServiceSearchDistrict_1" class="serviceSearchDistrictSelection globalNavigateToDistrictSelection">
+			<option value="-1">All</option>
+			<option value="2">Cork</option>
+			<option value="1">Dublin</option>
+			<option value="3">Galway</option>
+			<option value="4">Limerick</option>
+			<option value="5">Waterford</option>
+
+		</select>
+    
+	</div>
+    <input type="button" id="btnServiceSearch" value='Search' disabled="disabled" />
+    <input type="button" id="btnServiceSearchClear" value='Clear' disabled="disabled" />
+</div>
+                     
+                    </div>
+                    <div class="boxbottom-right"><div class="boxbottom-left"></div></div>                 
+                </div>                
+            </div>
+               
+            <div class="accordion-tab">
+                <div tabindex="-1" class="accordion-tab-header" onshow="introductionTab.showTab" onhide="introductionTab.hideTab"  isChild="false">
+                    <div class="boxtop-right"><div class="boxtop-left"></div></div>
+                    <span class="ui-icon ui-icon-triangle-1-e"></span>
+                    <a tabindex="-1" href="#" style="outline:none; text-decoration: none;">Search by Location</a>
+                    <div style="display: none;" class="boxbottom-right"><div class="boxbottom-left"></div></div>
+                </div>
+
+                <div style="display: block" class="accordion-tab-body" expandDefault="yes"  isChild="false">
+                    <div id="Accordion1_Repeater1_tabContent_2" class="tabContent">
+
+<div id="introductionTab" style="width: 100%">
+    
+    <div id="Accordion1_Repeater1_ctl00_2_gotoButtonPanel_2" class="gotoButtonPanel">
+		<a href='javascript:IntroductionMapGoto(3, -6.2677, 53.35383);'><div class='gotoButton'>Dublin</div></a><a href='javascript:IntroductionMapGoto(3, -8.477325, 51.900223);'><div class='gotoButton'>  Cork  </div></a><a href='javascript:IntroductionMapGoto(4, -9.056667, 53.27055);'><div class='gotoButton'>Galway</div></a><a href='javascript:IntroductionMapGoto(3, -8.62838, 52.66555);'><div class='gotoButton'>Limerick</div></a><a href='javascript:IntroductionMapGoto(3, -7.1256, 52.25272);'><div class='gotoButton'>Waterford</div></a><a href='javascript:IntroductionMapGoto(-1, -7.668457, 53.37677);'><div class='gotoButton'>National</div></a>
+	</div>
+</div>
+                     
+                    </div>
+                    <div class="boxbottom-right"><div class="boxbottom-left"></div></div>                 
+                </div>                
+            </div>
+            
+        <div class="accordionModeContainer" style="width:100%;">
+            
+            <a href="javascript:ShowAccordionOptions()" id="accordionModeToggle" > </a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ShowAccordionOptions()
+    {
+        if (accordionSettingsPage.length > 0)
+        {
+            if (optionsWindow == null)
+            {
+                optionsWindow = new OptionsWindow();
+            }
+
+            optionsWindow.open()
+        }
+    }
+
+    $(function ()
+    {
+        setTimeout(function ()
+        {
+            $('#Accordion1_accordion').createAccordion();
+        }, 100);
+    });
+</script>	
+
+                            </div>                            
+                            <div class="boxbottom-right"><div class="boxbottom-left"></div></div>
+                        </div>
+
+                        <div id="contentcolumn" class="contentcolumn">
+                            <div id="map"></div>
+                        </div>                   
+                    </div>
+
+                    <div id="footer">
+                    <div id="footerControl_footerContainer">
+		
+  
+
+	</div>
+                    </div>
+                </div>
+                <div id="searchQuickResults"></div>
+
+                <div class="errCorrection">&nbsp;</div>
+
+                
+</div>
+        </div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+if(!mapDisplay){mapDisplay = new MapDisplay(); mapDisplay.setup('mapSettings={"MapMode":"bing","LicenceKey":"","MapStyle":"shaded","DefaultZoom":3,"MinZoomLevel":-1,"MaxZoomLevel":11,"DefaultPosition":{"Lat":53.35,"Lon":-6.272},"MapBoundsTopLeft":{"Lat":55.5,"Lon":-10.8},"MapBoundsBottomRight":{"Lat":51.3,"Lon":-5.25},"ClusterZoomStep":2,"MarkerClipExtentsFactor":2.5,"UsePAC":false,"NavigationSearch":true,"NavigationSearch_Home":true,"NavigationSearch_PostcodeSearch":false,"NavigationSearch_TownSelection":false,"NavigationSearch_RoadSelection":false,"NavigationSearch_DistrictSelection":true,"NavigationSearch_LocalitySearch":false,"SharedLayerSettings":{"stopDisplay":{"StopWidth":"275","StopHeight":"190"}},"DisableLocalityList":true,"DisableDistrictSearchSelection":false}', null, 'Open in new window');}stopSearchSettings={"CharsRequired":4,"MaxQuickResults":30,"MaxModalResults":100,"UsePAC":false,"DistrictFilter":true};serviceSearchSettings={"MaxQuickResults":30,"MaxModalResults":100,"RouteLineNodes":"none","RouteLineColor":"#6699ff","RouteLineOpacity":"0.4","DistrictFilter":true,"ShowServiceMarketingName":false,"ServiceQuickSearchEnabled":false};//]]>
+</script>
+</form>
+</body>
+</html>
