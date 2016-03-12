@@ -1,5 +1,5 @@
 h2 {
-  font-family: 'Crimson Text';
+  font-family: Verdana, Geneva, sans-serif;
   font-size: 2em;
   font-style: normal;
   font-variant: normal;
@@ -9,7 +9,7 @@ h2 {
 }
 
 p {
-  font-family: 'Crimson Text';
+  font-family: Verdana, Geneva, sans-serif;
   font-size: 1em;
   text-align: center;
   color: #DC143C;

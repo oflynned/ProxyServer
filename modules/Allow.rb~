@@ -6,7 +6,7 @@ class Allow
   end
   
   def retrieve_page(request, socket)
-    puts "Retrieving content from " + Helpers.get_req(request, ")
+    puts "Retrieving content from " + Helpers.get_url(request)
   end 
   
   ##@deprecated

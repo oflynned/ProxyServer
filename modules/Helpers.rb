@@ -25,6 +25,7 @@ class Helpers
   end
   
   def self.get_url(request)
+    puts request
     req_uri = request.split(" ")[1]
     req_uri
   end
@@ -49,5 +50,11 @@ class Helpers
     delimiter = ':'
     type = url.split(delimiter)[0]
     type
+  end
+  
+  def self.retrieve_stripped(semi_stripped)
+    delimiter = "."
+    stripped = semi_stripped.split(delimiter)[0]
+    stripped
   end
 end

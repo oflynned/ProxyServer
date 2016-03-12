@@ -25,6 +25,7 @@ class Helpers
   end
   
   def self.get_url(request)
+    puts request
     req_uri = request.split(" ")[1]
     req_uri
   end
@@ -48,6 +49,6 @@ class Helpers
   def self.retrieve_type(url)
     delimiter = ':'
     type = url.split(delimiter)[0]
-    return type
+    type
   end
 end
