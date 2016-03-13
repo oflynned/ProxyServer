@@ -2,8 +2,7 @@ class Block
   WEB_ROOT = './public'
 
   BLACK_LISTED_WEBSITES = [
-    'http://www.glassbyte.com/',
-    'glassbyte'
+    'http://www.glassbyte.com/'
   ]
   
   DEFAULT_CONTENT_TYPE = 'application/octet-stream'

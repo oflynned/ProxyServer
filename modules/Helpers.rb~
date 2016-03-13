@@ -59,18 +59,22 @@ class Helpers
   end
   
   def self.verb(input)
-    input[/^\w+/]
+    verb = input[/^\w+/]
+    verb
   end
   
   def self.url(input)
-    input[/^\w+\s+(\S+)/, 1]
+    url = input[/^\w+\s+(\S+)/, 1]
+    url
   end
   
   def self.version(input)
-    input[/HTTP\/(1\.\d)\s*$/, 1]
+    version = input[/HTTP\/(1\.\d)\s*$/, 1]
+    version
   end 
   
   def self.uri(input)
-    URI::parse(input)
+    uri = URI::parse(input)
+    uri
   end
 end

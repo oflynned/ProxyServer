@@ -77,4 +77,8 @@ class Helpers
     uri = URI::parse(input)
     uri
   end
+  
+  def self.read_blacklist
+    
+  end
 end

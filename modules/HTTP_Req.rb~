@@ -4,7 +4,6 @@ require "uri"
 class HTTP_Req
   def initialize()
     puts "HTTP module initialized"
-    @passes = 0
   end
   
   def get_req(url)
@@ -18,15 +17,8 @@ class HTTP_Req
     puts response["cache-control"]
   end
   
-  def relay(client_relay)
-    request = client_relay.readline
+  def relay(request)
+    client = request.readline
+    
   end
-  
-  def is_done()
-    @passes = @passes + 1
-  end
-  
-  def passes
-    @passes
-  end 
 end

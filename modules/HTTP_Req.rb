@@ -13,11 +13,12 @@ class HTTP_Req
     response = http.request(request)
     
     puts response.code
-    puts response.body
+    #puts response.body
     puts response["cache-control"]
   end
   
-  def relay(client_relay)
-    request = client_relay.readline
+  def relay(request)
+    client = request.readline
+    
   end
 end
