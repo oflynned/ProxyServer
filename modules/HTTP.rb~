@@ -1,0 +1,12 @@
+require "http"
+
+class HTTP
+  def initialize(url)
+    @url = url
+    puts "HTTP module initialized"
+  end
+  
+  def get_req()
+    HTTP.get(url)
+  end
+end

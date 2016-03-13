@@ -75,5 +75,13 @@ class Block
 		  socket.print "\r\n"
 		  socket.print message
 	  end
-  end
+	end
+	
+	def is_start
+	  @done = false
+	end
+	
+	def is_end
+	  @done = true
+	end
 end

@@ -26,8 +26,8 @@ class Helpers
   
   def self.get_url(request)
     puts request
-    req_uri = request.split(" ")[1]
-    req_uri
+    req_uri_full = request.split(" ")[1]
+    req_uri_full
   end
   
   def self.splice_url(url)
@@ -50,5 +50,27 @@ class Helpers
     delimiter = ':'
     type = url.split(delimiter)[0]
     type
+  end
+  
+  def self.retrieve_stripped(semi_stripped)
+    delimiter = "."
+    stripped = semi_stripped.split(delimiter)[0]
+    stripped
+  end
+  
+  def self.verb(input)
+    input[/^\w+/]
+  end
+  
+  def self.url(input)
+    input[/^\w+\s+(\S+)/, 1]
+  end
+  
+  def self.version(input)
+    input[/HTTP\/(1\.\d)\s*$/, 1]
+  end 
+  
+  def self.uri(input)
+    URI::parse(input)
   end
 end

@@ -3,9 +3,7 @@ class Block
 
   BLACK_LISTED_WEBSITES = [
     'http://www.glassbyte.com/',
-    'glassbyte',
-    'https://www.google.com',
-    'google'
+    'glassbyte'
   ]
   
   DEFAULT_CONTENT_TYPE = 'application/octet-stream'
@@ -56,6 +54,7 @@ class Block
   end
   
   def block_req(request, socket)
+    is_start
     path = request_file(request)
 	  path = File.join(path, 'index.html') if File.directory?(path)
 	
@@ -77,5 +76,14 @@ class Block
 		  socket.print "\r\n"
 		  socket.print message
 	  end
-  end
+	  is_end
+	end
+	
+	def is_start
+	  @done = false
+	end
+	
+	def is_end
+	  @done = true
+	end
 end
