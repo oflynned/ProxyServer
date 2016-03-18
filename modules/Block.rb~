@@ -1,26 +1,8 @@
 class Block
-  WEB_ROOT = './public'
+  WEB_ROOT = './public'  
 
-  @@BLACK_LISTED_WEBSITES = [
-    'http://www.glassbyte.com/'
-  ]
-  
-  DEFAULT_CONTENT_TYPE = 'application/octet-stream'
-  CONTENT_TYPE_MAPPING = {
-	  'html' => 'text/html',
-	  'css' => 'text/css',
-	  'txt' => 'text/plain',
-	  'png' => 'image/png',
-	  'jpeg' => 'image/jpeg'
-  }
-  
   def initialize()
     puts "Block module initialized"
-  end
-  
-  def content_type(path)
-	  ext = File.extname(path).split(".").last
-	  CONTENT_TYPE_MAPPING.fetch(ext, DEFAULT_CONTENT_TYPE)
   end
   
   def request_file(request)
@@ -39,14 +21,14 @@ class Block
   end
   
   def check_req(stripped_url)
-    if BLACK_LISTED_WEBSITES.include?(stripped_url)
+    if Helpers.read_blacklist.include?(stripped_url)
       return true
     else return false
     end
   end
   
   def check_url(url)
-    if BLACK_LISTED_WEBSITES.include?(url)
+    if Helpers.read_blacklist.include?(url)
       return true
     else return false
     end

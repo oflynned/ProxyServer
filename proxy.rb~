@@ -18,7 +18,7 @@ block = Block.new
 cache = Cache.new
 pool = Pool.new
 @server = TCPServer.new(host, port)
-superuser = Superuser.new
+superuser = Superuser.new(block)
 
 Helpers.initialisation_preamble
 

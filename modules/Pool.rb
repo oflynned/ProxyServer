@@ -20,10 +20,10 @@ class Pool
 	  if !request.nil?
 	    if verb.eql? 'GET'
 	      puts 'get req'
-	    elsif verb.eql 'POST'
-	      puts 'post req'
-	    elsif verb.eql 'CONNECT'
-	      puts 'connect req'
+	    #elsif verb.eql 'POST'
+	    #  puts 'post req'
+	    #elsif verb.eql 'CONNECT'
+	    #  puts 'connect req'
 	    end
 	    
 	    is_blocked = block.check_url(url) or block.check_req(raw_name)
@@ -39,27 +39,28 @@ class Pool
 	    elsif type.eql? 'https'
 	      puts "HTTPS request"
 	    else
-	      puts "Neither HTTP nor HTTPS request"
+	      puts "SSL connect request?"
 	    end
 	  end
   end
   
   def pool_conn(block, allow, is_blocked, request, socket)
     puts "Creating new connection in pool"
-    @connections = @connections + 1
+    @connections += 1
     puts @connections
     if is_blocked
-      puts "blocked via thread instantiation"
+      puts "blocked via thread pool"
       puts is_blocked
-      conn = Thread.new {block.block_req(request, socket)}
-      if block.is_end
-        conn.join
+      Thread.start() do |socket|
+        s.write(block.block_req(request, socket))
+        s.close
       end
     else
-      puts "allowed via thread instantiation"
-      conn = Thread.new {allow.retrieve_page(socket, Helpers.get_url(request))}
-      if allow.is_end
-        conn.join
+      puts "allowed via thread pool"
+      Thread.start() do |socket|
+        page_data = allow.retrieve_page(socket, Helpers.get_url(request))
+        s.write(page_data)
+        s.close
       end
     end
   end

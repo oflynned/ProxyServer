@@ -6,10 +6,10 @@ class Allow
   end
   
   def retrieve_page(socket, url)
-    is_start
     puts "Retrieving content from " + url
-    HTTP_Req.new.get_req(url)
-    is_end
+    http_req = HTTP_Req.new
+    site_data = http_req.get_req(url)
+    socket.write(site_data)
   end 
 	
 	def is_start

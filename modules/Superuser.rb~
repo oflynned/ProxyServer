@@ -12,7 +12,7 @@ class Superuser
 
   def initialize(block)
     puts "Superuser module initialized"
-    @block = block
+    @@block = block
     @thread = Thread.new{su}
   end
   
@@ -85,14 +85,14 @@ class Superuser
   
   def add_to_blacklist(url)
     puts "\n"
+    Helpers.write_blacklist(url)
     puts_su "#{url} has been added to the blacklist"
   end
   
   def blacklist
     puts "\n"
     puts_su "Items currently blacklisted:"
-    p block.BLACK_LISTED_WEBSITES
-    puts "worked?"
+    Helpers.read_blacklist
   end
   
   def check(url)
