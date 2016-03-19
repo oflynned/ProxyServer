@@ -2,30 +2,28 @@ require "socket"
 require "openssl"
 require "base64"
 
-remote_host = "https://encrypted.google.com"
+remote_host = "encrypted.google.com"
 remote_port = 443
 listen_port = 2345 
 max_threads = 5
 threads = []
 logfilecs = "ssl-client-server.log"
 logfilesc = "ssl-server-client.log"
-cert = "./public/ssl/X509/cert.pem"
-key = "./public/ssl/RSA/key.pem"
-password = 'password1'
 
+cert = "./public/ssl/cert.pem"
+key = "./public/ssl/key.key"
+
+puts "\n**************************************"
 puts "starting server"
-server = TCPServer.new(nil, listen_port)
+
 lssl_context = OpenSSL::SSL::SSLContext.new(:SSLv23)
 lssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-encoded_content = File.read(cert)
-decoded_content = Base64.decode64(encoded_content)
-certificate = OpenSSL::X509::Certificate.new(decoded_content)
-puts certificate
-
 lssl_context.cert = OpenSSL::X509::Certificate.new(File.open(cert))
 lssl_context.key = OpenSSL::PKey::RSA.new(File.open(key))
 
+#http from client to proxy
+server = TCPServer.new(nil, listen_port)
+#https/ssl from proxy to host
 lssl_socket = OpenSSL::SSL::SSLServer.new(server, lssl_context)
 
 while true

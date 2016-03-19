@@ -1,77 +1,89 @@
 require 'socket'
+require 'uri'
+require 'thread'
 
 class Pool
-  def initialize()
-    puts "Pooling module initialized"
-    @connections = 0
-  end
-  
-  def create_conn(socket, allow, block, cache, superuser)
-	  request = socket.gets
+	MAX_THREADS = 32
 
-    #file details	  
-	  url = Helpers.url(request)
-	  type = Helpers.retrieve_type(url)
-	  verb = Helpers.verb(request)
-	  version = Helpers.version(request)
-	  folder_name = Helpers.splice_url(Helpers.get_url(request))
-	  raw_name = Helpers.retrieve_stripped(folder_name)
-	
-	  if !request.nil?
-	    if verb.eql? 'GET'
-	      puts 'get req'
-	    #elsif verb.eql 'POST'
-	    #  puts 'post req'
-	    #elsif verb.eql 'CONNECT'
-	    #  puts 'connect req'
-	    end
-	    
-	    is_blocked = block.check_url(url) or block.check_req(raw_name)
-	    
-	    if type.eql? 'http'
-	      puts "HTTP request filtered" 
-	      if is_blocked
-	        puts "\nRequest to " + url + " has been blacklisted!\n"
-	      else
-	        puts "\nRequest to " + url + " has been whitelisted!\n"
-	      end
-	      pool_conn(block, allow, is_blocked, request, socket)
-	    elsif type.eql? 'https'
-	      puts "HTTPS request"
-	    else
-	      puts "SSL connect request?"
-	    end
-	  end
+  def initialize()
+    @connections = 0
+		@threads = Array.new(MAX_THREADS)
+		
+		@block = Block.new
+		@allow = Allow.new
   end
   
-  def pool_conn(block, allow, is_blocked, request, socket)
-    puts "Creating new connection in pool"
-    @connections += 1
-    puts @connections
-    if is_blocked
-      puts "blocked via thread pool"
-      puts is_blocked
-      Thread.start() do |s|
-        s.write(block.block_req(request, s))
-        s.close
-      end
-    else
-      puts "allowed via thread pool"
-      Thread.start() do |s|
-        page_data = allow.retrieve_page(s, Helpers.get_url(request))
-        s.write(page_data)
-        s.close
-      end
-    end
+  def pool_conn(socket)
+	  @socket = socket.accept
+	  thread = Thread.new(@socket) do |client_s|
+	  	begin
+				#request details	
+				request = client_s.gets
+				url = Helpers.url(request)
+				uri = URI.parse(url)
+				type = Helpers.retrieve_type(url)
+				verb = Helpers.verb(request)
+				version = Helpers.version(request)
+				folder_name = Helpers.splice_url(Helpers.get_url(request))
+				raw_name = Helpers.retrieve_stripped(folder_name)
+				
+	    	puts(verb + " " + url)
+				return_to_client(uri, verb, version, request, client_s)
+			end
+		end
+		@threads.push(thread)
   end
+  
+  def return_to_client(uri, verb, version, request, client_s)
+    puts "Creating new connection in thread pool"
+    @connections += 1
+    puts "Connections in pool: #{@connections}"
+    puts request
+    @req_uri = request
+		
+		#check blacklist first
+		if not request.nil?
+			if verb.eql? 'GET'
+				puts 'get req'
+			elsif verb.eql 'POST'
+				puts 'post req'
+			elsif verb.eql 'CONNECT'
+			  puts 'connect req'
+			end
+			
+			server_s = TCPSocket.new(uri.host, (uri.port.nil? ? HTTP_PORT : uri.port))
+			puts "#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n"
+			server_s.write("#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n")
+			is_blocked = Helpers.read_blacklist.include? "#{uri}"
+
+			if verb.eql? "GET" or verb.eql? "POST"
+			  puts "HTTP request filtered" 
+			  if is_blocked
+			    puts "Request to #{uri} has been blacklisted!"
+			    @block.block_req(@req_uri, server_s)
+			  else  
+			    puts "Request to #{uri} has been whitelisted!"
+			    @allow.retrieve_page(server_s, client_s, uri, verb, version)
+			  end
+			elsif verb.eql? 'CONNECT'
+			  puts "HTTPS request"
+			elsif verb.eql? 'POST'
+			  puts "POST request"
+			end
+			puts "pooling conn"
+		end
+	end
   
   def self.num_conns
     @connections
   end
   
-  def kill_thread(socket, thread)
-    puts "Killing socket connection thread in pool"
-    socket.close
-    thread.kill
-  end
+  def auto_clean_conns
+  	puts "#{@threads.size} threads running in pool"
+		@threads = @threads.select { |t| t.alive? ? true : (t.join; false) }
+		while @threads.size >= max_threads
+			sleep 1
+			@threads = @threads.select { |t| t.alive? ? true : (t.join; false) }
+		end
+	end
 end

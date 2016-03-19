@@ -32,6 +32,7 @@ class Proxy
     
     verb    = request_line[/^\w+/]
     url     = request_line[/^\w+\s+(\S+)/, 1]
+    puts url
     version = request_line[/HTTP\/(1\.\d)\s*$/, 1]
     uri     = URI::parse url
     
@@ -39,12 +40,14 @@ class Proxy
     puts((" %4s "%verb) + url)
     
     to_server = TCPSocket.new(uri.host, (uri.port.nil? ? 80 : uri.port))
+    puts "#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n"
     to_server.write("#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n")
     
     content_len = 0
     
     loop do      
       line = to_client.readline
+      puts line
       
       if line =~ /^Content-Length:\s+(\d+)\s*$/
         content_len = $1.to_i
@@ -83,7 +86,7 @@ end
 
 # Get parameters and start the server
 if ARGV.empty?
-  port = 8008
+  port = 2016
 elsif ARGV.size == 1
   port = ARGV[0].to_i
 else

@@ -1,5 +1,0 @@
-class Manage
-  def initialize()
-    puts "Admin management module initialized"
-  end
-end

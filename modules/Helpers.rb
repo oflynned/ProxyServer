@@ -94,17 +94,16 @@ class Helpers
   
   def self.read_blacklist
     website_list = ""
-    File.open('blacklist.txt', 'r') do |file|  
+    File.open('public/blacklist/blacklist.txt', 'r') do |file|  
       while website = file.gets  
-        puts website
-        website_list += website + ' '
-      end  
+        website_list += website
+      end
     end
     website_list
   end
   
   def self.write_blacklist(website)
-    File.open('blacklist.txt', 'w') do |file|
+    File.open('public/blacklist/blacklist.txt', 'w') do |file|
       file.puts website  
     end 
   end

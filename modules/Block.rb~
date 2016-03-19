@@ -1,5 +1,6 @@
 class Block
-  WEB_ROOT = './public'  
+  WEB_ROOT = 'public'  
+  INDEX = "index.html"
 
   def initialize()
     puts "Block module initialized"
@@ -17,7 +18,8 @@ class Block
 	  next if part.empty? || part == '.'
 		  part == ".." ? clean.pop : clean << part
 	  end
-	  File.join(WEB_ROOT, *clean)
+	  #File.join(WEB_ROOT, *clean)
+	  File.join(Dir.pwd, WEB_ROOT)
   end
   
   def check_req(stripped_url)
@@ -35,36 +37,28 @@ class Block
   end
   
   def block_req(request, socket)
-    is_start
     path = request_file(request)
-	  path = File.join(path, 'index.html') if File.directory?(path)
+	  path = File.join(path, INDEX) if File.directory?(path)
+	  
+	  puts path
 	
-	  if File.exist?(path) && !File.directory?(path)
-		  File.open(path, "rb") do |file|
-			  socket.print 	"HTTP/1.1 200 OK\r\n" +
-										  "Content-Type: #{content_type(path)}\r\n" +
-										  "Content-Length: #{file.size}\r\n" +
-										  "Connection: close\r\n"
-			  socket.print "\r\n"
-			  IO.copy_stream(file, socket)
-		  end
-	  else
-		  message = "File not found error 404\n"
-		  socket.print 	"HTTP/1.1 404 Not Found\r\n" +
-									  "Content-Type: text/plain\r\n" +
-									  "Content-Length: #{message.size}\r\n" +
-									  "Connection: close\r\n"
-		  socket.print "\r\n"
-		  socket.print message
-	  end
-	  is_end
-	end
-	
-	def is_start
-	  @done = false
-	end
-	
-	def is_end
-	  @done = true
+		message = 
+			"<head>
+				<title>Blocked!</title>
+				<meta charset=\"utf-8\">
+			</head>
+
+			<body>
+				<h2>This website has been blacklisted from use.</h2>
+				<p>Please contact your system administrator.</p>
+			</body>"
+		  
+	 	socket.print 	"HTTP/1.1 200 OK\r\n" +
+							  "Content-Type: text/html\r\n" +
+							  "Content-Length: #{message.size}\r\n" +
+							  "Connection: close\r\n"
+		socket.print "\r\n"
+		socket.print message
+	  socket.close
 	end
 end

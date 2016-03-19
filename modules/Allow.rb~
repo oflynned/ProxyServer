@@ -1,17 +1,48 @@
 require 'socket'
+require 'uri'
+
+HTTP_PORT = 80
+HTTPS_PORT = 443
+BUFF_SIZE = 4048
 
 class Allow
   def initialize()
     puts "Allow module initialized"
   end
   
-  def retrieve_page(socket, url)
-    is_start
-    puts "Retrieving content from " + url
-    http_req = HTTP_Req.new
-    site_data = http_req.get_req(url)
-    socket.write(site_data)
-    is_end
+  def retrieve_page(server_sclient_s, uri, verb, version)
+	  puts "in allow"
+		content_len = 0
+    loop do     
+      line = client_s.readline
+      
+      if line =~ /^Content-Length:\s+(\d+)\s*$/
+        content_len = $1.to_i
+      end
+      
+      # Strip proxy headers
+      if line =~ /^proxy/i
+        next
+      elsif line.strip.empty?
+        server_s.write("Connection: close\r\n\r\n")
+        if content_len >= 0
+          server_s.write(client_s.read(content_len))
+        end
+        break
+      else
+        server_s.write(line)
+      end
+    end
+    
+    buff = ""
+    loop do
+      server_s.read(BUFF_SIZE, buff)
+      client_s.write(buff)
+      break if buff.size < BUFF_SIZE
+    end
+    
+    client_s.close
+    server_s.close
   end 
 	
 	def is_start

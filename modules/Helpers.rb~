@@ -1,5 +1,14 @@
 class Helpers
 
+  DEFAULT_CONTENT_TYPE = 'application/octet-stream'
+  CONTENT_TYPE_MAPPING = {
+	  'html' => 'text/html',
+	  'css' => 'text/css',
+	  'txt' => 'text/plain',
+	  'png' => 'image/png',
+	  'jpeg' => 'image/jpeg'
+  }
+  
   def self.module_initialization()
     puts "\n"
     puts "**************************"
@@ -11,6 +20,11 @@ class Helpers
     puts "**************************"
     puts "\nProxy server initialised on 127.0.0.1:2345"
     puts "\n"
+  end
+  
+  def self.content_type(path)
+	  ext = File.extname(path).split(".").last
+	  CONTENT_TYPE_MAPPING.fetch(ext, DEFAULT_CONTENT_TYPE)
   end
 
   def self.get_req(url, type)
@@ -80,17 +94,16 @@ class Helpers
   
   def self.read_blacklist
     website_list = ""
-    File.open('blacklist.txt', 'r') do |file|  
+    File.open('public/blacklist/blacklist.txt', 'r') do |file|  
       while website = file.gets  
-        puts website
         website_list += website + ' '
-      end  
+      end
     end
     website_list
   end
   
   def self.write_blacklist(website)
-    File.open('blacklist.txt', 'w') do |file|
+    File.open('public/blacklist/blacklist.txt', 'w') do |file|
       file.puts website  
     end 
   end
