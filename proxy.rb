@@ -1,7 +1,7 @@
 require 'socket'
 require 'uri'
 require 'open-uri'
-require 'fileutils'
+require "openssl"
 
 #own classes
 require 'require_all'

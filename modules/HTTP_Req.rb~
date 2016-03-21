@@ -7,7 +7,7 @@ class HTTP_Req
     puts "HTTP module initialized"
   end
   
-  def retrieve_page(client_s, uri, verb, version)
+  def retrieve_page(server_s, client_s, uri, verb, version)
   	server_s = TCPSocket.new(uri.host, (uri.port.nil? ? HTTP_PORT : uri.port))
 		#puts "#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n"
 		server_s.write("\n\n#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n")

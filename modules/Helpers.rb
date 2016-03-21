@@ -9,19 +9,6 @@ class Helpers
 	  'jpeg' => 'image/jpeg'
   }
   
-  def self.module_initialization()
-    puts "\n"
-    puts "**************************"
-    puts "\n"
-  end
-
-  def self.initialisation_preamble()
-    puts "\n"
-    puts "**************************"
-    puts "\nProxy server initialised on 127.0.0.1:2345"
-    puts "\n"
-  end
-  
   def self.content_type(path)
 	  ext = File.extname(path).split(".").last
 	  CONTENT_TYPE_MAPPING.fetch(ext, DEFAULT_CONTENT_TYPE)
@@ -57,6 +44,10 @@ class Helpers
     if url.include?('www.')
       url["www."] = ""
     end
+    
+    if url.include?('/')
+    	url["/"] = ""
+    end
     url
   end
   
@@ -90,6 +81,11 @@ class Helpers
   def self.uri(input)
     uri = URI::parse(input)
     uri
+  end
+  
+  def self.strip_all_but_domain(input)
+  	input.sub(/.*?([^.]+(\.com|\.co\.uk|\.uk|\.nl))$/, "\\1")
+  	input
   end
   
   def self.read_blacklist

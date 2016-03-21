@@ -14,7 +14,6 @@ key = File.expand_path("server.key")
 puts "starting server"
 server = TCPServer.new(nil, listen_port)
 
-OpenSSL::SSL::SSLContext::DEFAULT_PARAMS[:ssl_version] = :TLSv1
 lssl_context = OpenSSL::SSL::SSLContext.new(:TLSv1_server)
 lssl_context.cert = OpenSSL::X509::Certificate.new(File.open(cert))
 lssl_context.key = OpenSSL::PKey::RSA.new(File.open(key))

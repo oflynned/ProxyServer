@@ -1,21 +1,23 @@
 require 'socket'
 require 'uri'
 require 'thread'
+require "openssl"
 
 class Pool
-	MAX_THREADS = 32
+	MAX_THREADS = 64
 
   def initialize()
     @connections = 0
 		@threads = Array.new(MAX_THREADS)
 		
 		@block = Block.new
-		@allow = Allow.new
+		@http_req = HTTP_Req.new
+		@https_req = HTTPS_Req.new
   end
   
   def pool_conn(socket)
 	  @socket = socket.accept
-	  thread = Thread.new(@socket) do |client_s|
+	  @threads.push(Thread.new(@socket) do |client_s|
 	  	begin
 				#request details	
 				request = client_s.gets
@@ -30,8 +32,7 @@ class Pool
 	    	puts(verb + " " + url)
 				return_to_client(uri, verb, version, request, client_s)
 			end
-		end
-		@threads.push(thread)
+		end)
   end
   
   def return_to_client(uri, verb, version, request, client_s)
@@ -40,37 +41,40 @@ class Pool
     puts "Connections in pool: #{@connections}"
     puts request
     @req_uri = request
+    
+    puts uri
+    puts request
+		puts verb
 		
 		#check blacklist first
 		if not request.nil?
-			if verb.eql? 'GET'
-				puts 'get req'
-			elsif verb.eql 'POST'
-				puts 'post req'
-			elsif verb.eql 'CONNECT'
-			  puts 'connect req'
-			end
-			
-			server_s = TCPSocket.new(uri.host, (uri.port.nil? ? HTTP_PORT : uri.port))
-			puts "#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n"
-			server_s.write("#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n")
 			is_blocked = Helpers.read_blacklist.include? "#{uri}"
 
 			if verb.eql? "GET" or verb.eql? "POST"
+			##
+			# HTTP handling here on port 80
 			  puts "HTTP request filtered" 
 			  if is_blocked
 			    puts "Request to #{uri} has been blacklisted!"
-			    @block.block_req(@req_uri, server_s)
+			    @block.block_req(@req_uri, client_s, false)
 			  else  
-			    puts "Request to #{uri} has been whitelisted!"
-			    @allow.retrieve_page(server_s, client_s, uri, verb, version)
+			    puts "HTTP request to #{uri} has been whitelisted!"
+					##
+					# instantiate HTTP req
+			    @http_req.retrieve_page(client_s, uri, verb, version)
 			  end
-			elsif verb.eql? 'CONNECT'
-			  puts "HTTPS request"
-			elsif verb.eql? 'POST'
-			  puts "POST request"
+			##
+			# SSL handling here on port 443 with certs
+			elsif verb.eql? "CONNECT"
+			  puts "SSL request filtered!"
+			  if is_blocked
+			    puts "Request to #{uri} has been blacklisted!"
+			    @block.block_req(@req_uri, client_s, true)
+			  else
+			    puts "SSL request to #{uri} has been whitelisted!"
+			  	@https_req.retrieve_page(client_s, uri, verb, version)
+			  end
 			end
-			puts "pooling conn"
 		end
 	end
   
@@ -79,11 +83,32 @@ class Pool
   end
   
   def auto_clean_conns
-  	puts "#{@threads.size} threads running in pool"
-		@threads = @threads.select { |t| t.alive? ? true : (t.join; false) }
-		while @threads.size >= max_threads
-			sleep 1
-			@threads = @threads.select { |t| t.alive? ? true : (t.join; false) }
-		end
+  	count = 0
+  	@threads.each do |element|
+  		if not element.nil?
+  			count += 1
+  		end
+  	end
+  	
+  	if count == 1
+  		puts "#{count} connection active in the pool"
+  	else 	
+	  	puts "#{count} connections active in the pool"
+  	end
+  	
+  	if count < MAX_THREADS
+			id = 0
+			@threads.each do |t|
+				id += 1
+				if !t.nil?
+					if !t.alive? 
+						t.join
+						@threads.pop(id)
+					end
+				end
+			end
+  	else
+  		sleep 1 
+  	end
 	end
 end

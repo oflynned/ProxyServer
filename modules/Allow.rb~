@@ -10,7 +10,7 @@ class Allow
     puts "Allow module initialized"
   end
   
-  def retrieve_page(server_sclient_s, uri, verb, version)
+  def retrieve_page_http(server_s, client_s, uri, verb, version)
 	  puts "in allow"
 		content_len = 0
     loop do     
