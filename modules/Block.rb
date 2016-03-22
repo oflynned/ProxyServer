@@ -58,18 +58,10 @@ class Block
 				<h5>No wanking lol</h5>
 			</body>"
 		  
-		if is_ssl
-			socket.print 	"HTTP/1.1 200 OK\r\n" +
-										"Content-Type: text/html\r\n" +
-										"Content-Length: #{message.size}\r\n" +
-										"Connection: close\r\n"
-		else
-			socket.print 	"HTTPS/1.1 200 OK\r\n" +
-										"Content-Type: text/html\r\n" +
-										"Content-Length: #{message.size}\r\n" +
-										"Connection: close\r\n"
-		end
-	 	
+		socket.print 	"HTTP/1.1 200 OK\r\n" +
+									"Content-Type: text/html\r\n" +
+									"Content-Length: #{message.size}\r\n" +
+									"Connection: close\r\n"
 		socket.print "\r\n"
 		socket.print message
 	  socket.close

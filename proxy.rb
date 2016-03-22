@@ -1,6 +1,5 @@
 require 'socket'
 require 'uri'
-require 'open-uri'
 require "openssl"
 
 #own classes

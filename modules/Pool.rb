@@ -30,12 +30,12 @@ class Pool
 				raw_name = Helpers.retrieve_stripped(folder_name)
 				
 	    	puts(verb + " " + url)
-				return_to_client(uri, verb, version, request, client_s)
+				return_to_client(uri, url, verb, version, request, client_s)
 			end
 		end)
   end
   
-  def return_to_client(uri, verb, version, request, client_s)
+  def return_to_client(uri, url, verb, version, request, client_s)
     puts "Creating new connection in thread pool"
     @connections += 1
     puts "Connections in pool: #{@connections}"
@@ -72,7 +72,7 @@ class Pool
 			    @block.block_req(@req_uri, client_s, true)
 			  else
 			    puts "SSL request to #{uri} has been whitelisted!"
-			  	@https_req.retrieve_page(client_s, uri, verb, version)
+			  	@https_req.retrieve_page(client_s, url, verb, version)
 			  end
 			end
 		end

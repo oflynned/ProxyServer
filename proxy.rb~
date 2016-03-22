@@ -1,6 +1,5 @@
 require 'socket'
 require 'uri'
-require 'open-uri'
 require "openssl"
 
 #own classes
@@ -11,15 +10,12 @@ require_all 'modules'
 HOST = 'localhost'
 SERVER_PORT = 2016
 
-@server = TCPServer.new(HOST, SERVER_PORT)
-sslContext = OpenSSL::SSL::SSLContext.new
-sslContext.cert = OpenSSL::X509::Certificate.new(File.open("server.crt"))
-sslContext.key = OpenSSL::PKey::RSA.new(File.open("server.key"))
-@sslServer = OpenSSL::SSL::SSLServer.new(@server, sslContext)
-
+server = TCPServer.new(HOST, SERVER_PORT)
+context = OpenSSL::SSL::SSLContext.new
+@ssl_server = OpenSSL::SSL::SSLServer.new(server, context)
 pool = Pool.new
 
 loop do
-	pool.pool_conn(@server)
+	pool.pool_conn(@ssl_server)
 	#pool.auto_clean_conns
 end

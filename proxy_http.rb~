@@ -36,6 +36,13 @@ class Proxy
     version = request_line[/HTTP\/(1\.\d)\s*$/, 1]
     uri     = URI::parse url
     
+    ####
+    # Check the page version
+    # 3 cases: file version not found, file version is different, file version is the same
+    # -> 1: cache, 2: purge + cache afresh, 3: load old index.html with NO caching
+    
+    cache.check_version(url)
+    
     # Show what got requested
     puts((" %4s "%verb) + url)
     
@@ -86,7 +93,7 @@ end
 
 # Get parameters and start the server
 if ARGV.empty?
-  port = 8008
+  port = 2016
 elsif ARGV.size == 1
   port = ARGV[0].to_i
 else

@@ -1,6 +1,2 @@
 http://www.glassbyte.com/
-http://www.syzible.com/
-https://www.leapcard.ie/
-https://www.luas.ie/
-www.leapcard.ie:443
-www.luas.ie:443
+http://glassbyte.com/

@@ -1,41 +1,55 @@
 require 'openssl'
 require 'socket'
 require 'uri'
+require 'net/http'
 
 class HTTPS_Req
 
-HOST = "localhost"
-HTTP_PORT = 2016
-HTTPS_PORT = 443
+PROXY_HOST = "localhost"
+PROXY_PORT = 2016
 
   def initialize()
     puts "HTTPS module initialized"
   end
   
-  def retrieve_page(client_s, uri, verb, version)
+  def retrieve_page(client_s, url, verb, version)
 		puts "SSL page retrieved!"
-
-		server_s = TCPSocket.new(uri.host, (uri.port.nil? ? HTTP_PORT : uri.port))
-		puts '1'
-		ssl_context = ssl_context = OpenSSL::SSL::SSLContext.new
-		puts '2'
-		#ssl_context.cert = OpenSSL::X509::Certificate.new(File.open("server.crt"))
-		puts '3'
-		#ssl_context.key = OpenSSL::PKey::RSA.new(File.open("server.key"))
-		puts '4'
-		ssl_context.ssl_version = :SSLv23
-		puts '5'
-		ssl_socket = OpenSSL::SSL::SSLSocket.new(server_s, ssl_context)
-		puts '6'
-		ssl_socket.connect(uri)
-		puts '7'
 		
-		puts uri
-		puts verb
-		puts version
+		url = 'https://' + url
+		url.sub!(":443", "")
+		puts url
 		
-		#puts "#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n"
-		#ssl_socket.puts("\n\n#{verb} #{uri.path}?#{uri.query} HTTP/#{version}\r\n")
-		#client_s.write(ssl_socket.gets)		
+		@uri = URI(url)
+		
+		puts "URI: #{@uri}"
+		puts "Host: #{@uri.host}"
+		puts "Port: #{@uri.port}"
+		puts "Scheme: #{@uri.scheme}"
+		
+		#Net::HTTP.start(@uri.host, @uri.port,   
+    #  :use_ssl => @uri.scheme == 'https') do |http|
+    #  request = Net::HTTP::Get.new @uri
+    #  response = http.request request
+    #  puts response.body
+    #  client_s.write(response.body)
+    #end
+		
+		tcp_client = TCPSocket.new(@uri.host, @uri.port)
+    puts "1"
+		context = OpenSSL::SSL::SSLContext.new
+    puts "1"
+    context.cert = OpenSSL::X509::Certificate.new("public/certs/cacert.pem")
+    
+    puts "1"
+    ssl_client = OpenSSL::SSL::SSLSocket.new(tcp_client, context)
+    puts "1"
+    ssl_client.connect
+    puts "2"
+    response = ssl_client.gets
+    client_s.write(response.body)
+		
+		ssl_client.sysclose
+    tcp_client.close
+	  client_s.close
   end
 end

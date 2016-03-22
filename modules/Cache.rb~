@@ -42,7 +42,6 @@ class Cache
     path = Dir.pwd + '/public/cached/' + website + '/'
     @directory.each do |dir|
       path += dir + '/'
-      puts path
       Dir.mkdir(path)
     end
     save(path, @file_name, data, website)

@@ -1,7 +1,7 @@
 require 'socket'
+require 'openssl'
 require 'uri'
 require 'thread'
-require "openssl"
 
 class Pool
 	MAX_THREADS = 64
