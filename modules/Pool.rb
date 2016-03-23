@@ -72,7 +72,7 @@ class Pool
 			    @block.block_req(@req_uri, client_s, true)
 			  else
 			    puts "SSL request to #{uri} has been whitelisted!"
-			  	@https_req.retrieve_page(client_s, url, verb, version)
+			  	@https_req.retrieve_page(client_s, url, verb, version, request)
 			  end
 			end
 		end

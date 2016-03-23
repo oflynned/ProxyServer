@@ -53,9 +53,9 @@ class Block
 			</head>
 
 			<body>
-				<h3>#{Helpers.splice_url(Helpers.url(request))} has been blacklisted from use.</h3>
-				<h4>Please contact your system administrator.</h4>
-				<h5>No wanking lol</h5>
+				<h2>#{Helpers.splice_url(Helpers.url(request))} has been blacklisted from use.</h2>
+				<h3>Please contact your system administrator.</h3>
+				<h3>No wanking :P</h3>
 			</body>"
 		  
 		socket.print 	"HTTP/1.1 200 OK\r\n" +

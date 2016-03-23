@@ -15,8 +15,10 @@ class Pool
 		@https_req = HTTPS_Req.new
   end
   
-  def pool_conn(socket)
+  def pool_conn(socket, socket_ssl)
 	  @socket = socket.accept
+	  @socket_ssl = socket_ssl
+	  
 	  @threads.push(Thread.new(@socket) do |client_s|
 	  	begin
 				#request details	
@@ -30,12 +32,16 @@ class Pool
 				raw_name = Helpers.retrieve_stripped(folder_name)
 				
 	    	puts(verb + " " + url)
-				return_to_client(uri, verb, version, request, client_s)
+	    	if verb.eql? "GET"
+				  return_to_client(uri, url, verb, version, request, client_s)
+			  else
+			    @https_req.retrieve_page(@socket_ssl)
+			  end
 			end
 		end)
   end
   
-  def return_to_client(uri, verb, version, request, client_s)
+  def return_to_client(uri, url, verb, version, request, client_s)
     puts "Creating new connection in thread pool"
     @connections += 1
     puts "Connections in pool: #{@connections}"
@@ -72,7 +78,7 @@ class Pool
 			    @block.block_req(@req_uri, client_s, true)
 			  else
 			    puts "SSL request to #{uri} has been whitelisted!"
-			  	@https_req.retrieve_page(client_s, uri, verb, version)
+			  	@https_req.retrieve_page(client_s, url, verb, version, request)
 			  end
 			end
 		end
