@@ -15,6 +15,6 @@ HTTP_PORT = 2016
 pool = Pool.new
 
 loop do
-	pool.pool_conn(@server, @server)
+	pool.pool_conn(@server)
 	#pool.auto_clean_conns
 end

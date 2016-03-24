@@ -32,15 +32,20 @@ class HTTPS_Req
 		
 		tcp_socket = TCPSocket.new(@uri.host, @uri.port)
 		ssl_context = OpenSSL::SSL::SSLContext.new
-		# Don’t use SSLv3
-    no_ssl_3 = OpenSSL::SSL::OP_NO_SSLv3
-    # Don’t use SSLv2
+    ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    
+    cert_store = OpenSSL::X509::Store.new
+    cert_store.set_default_paths
+    ssl_context.cert_store = cert_store
+    
     no_ssl_2 = OpenSSL::SSL::OP_NO_SSLv2
-    # Don’t use compression (CRIME CVE-2012-4929)
+    no_ssl_3 = OpenSSL::SSL::OP_NO_SSLv3
     no_ssl_compression = OpenSSL::SSL::OP_NO_COMPRESSION
+    
     ssl_options = no_ssl_2 + no_ssl_3 + no_ssl_compression
     ssl_context.options = ssl_options
 		ssl_socket = OpenSSL::SSL::SSLSocket.new(tcp_socket, ssl_context)
+		ssl_socket.sync_close = true
 		ssl_socket.connect
 		
 		while true
@@ -48,11 +53,10 @@ class HTTPS_Req
       begin
         ready_sockets.each do |socket|
           data = socket.readpartial(SSL_BLOCK_SIZE)
-          puts "!!!!!!!"
           puts data
           if socket == client_s
             # Read from client, write to server.
-            ssl_socket.write data
+            ssl_socket.write(data)
             ssl_socket.flush
           else
             # Read from server, write to client.
